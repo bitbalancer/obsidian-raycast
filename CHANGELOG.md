@@ -1,5 +1,9 @@
 # Obsidian Changelog
 
+## [Remember Last Used Sort Order] - {PR_MERGE_DATE}
+
+- The sort dropdown in Search Note and Bookmarked Notes now remembers the last selected order and restores it the next time the command opens (stored per command by Raycast)
+
 ## [Respect "Use Fuzzy Search" Preference] - {PR_MERGE_DATE}
 
 - Fix: Search Note ignored the "Use Fuzzy Search" preference and always used fuzzy title/path matching, so a search for `11.15` also returned notes like `11.17` or `12-11-15`

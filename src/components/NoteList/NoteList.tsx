@@ -94,7 +94,7 @@ export function NoteList(props: NoteListProps) {
       onSearchTextChange={setInputText}
       onSelectionChange={setSelectedItemId}
       navigationTitle={title}
-      searchBarAccessory={<NoteListDropdown sortOrder={sortOrder} setSortOrder={setSortOrder} />}
+      searchBarAccessory={<NoteListDropdown setSortOrder={setSortOrder} />}
     >
       {filteredNotes.map((note, idx) => (
         <MemoizedNoteListItem

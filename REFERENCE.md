@@ -41,6 +41,11 @@ Nearly every command has a vault selection that either moves to the next "action
 
 Many commands use a note list.
 
+### Sort Dropdown
+
+- [ ] sort notes by relevance, file name, modified time, or created time
+- [ ] the last selected order is remembered per command and restored the next time the command opens
+
 ### Quick Look
 
 - [ ] actions

@@ -1,16 +1,18 @@
 import { List, Icon } from "@raycast/api";
 import { SortOrder } from "../../utils/sorting";
 
-export function NoteListDropdown(props: { sortOrder: SortOrder; setSortOrder: (o: SortOrder) => void }) {
-  const { sortOrder, setSortOrder } = props;
+/**
+ * Sort order dropdown for the note list.
+ *
+ * The dropdown is uncontrolled and lets Raycast persist the last selected order
+ * (per command) via `storeValue`, so the list opens with the order the user chose last.
+ * Raycast reports the restored value through `onChange` when the dropdown mounts.
+ */
+export function NoteListDropdown(props: { setSortOrder: (o: SortOrder) => void }) {
+  const { setSortOrder } = props;
 
   return (
-    <List.Dropdown
-      tooltip="Sort Notes"
-      value={sortOrder}
-      onChange={(v) => setSortOrder(v as SortOrder)}
-      storeValue={false}
-    >
+    <List.Dropdown id="sortOrder" tooltip="Sort Notes" onChange={(v) => setSortOrder(v as SortOrder)} storeValue>
       <List.Dropdown.Section title="Sort Notes">
         <List.Dropdown.Item value="relevance" title="Relevance" icon={Icon.Stars} />
         <List.Dropdown.Item value="alphabetical-asc" title="File name (A to Z)" icon={Icon.ArrowDown} />
