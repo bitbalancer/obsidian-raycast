@@ -1,5 +1,10 @@
 # Obsidian Changelog
 
+## [Respect "Use Fuzzy Search" Preference] - {PR_MERGE_DATE}
+
+- Fix: Search Note ignored the "Use Fuzzy Search" preference and always used fuzzy title/path matching, so a search for `11.15` also returned notes like `11.17` or `12-11-15`
+- With "Use Fuzzy Search" disabled (the default) and "Search Content" disabled, Search Note now uses a literal, case-insensitive substring match on the note title only, as it did before the note-loading refactor
+
 ## [Silent Mode No Longer Activates Obsidian] - 2026-03-31
 
 - Fix: Append to Daily Note, Append Task, and custom actions with silent mode enabled no longer bring Obsidian to the foreground

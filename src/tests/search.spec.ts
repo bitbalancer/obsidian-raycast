@@ -1,8 +1,58 @@
 import { NoteWithContent } from "@/obsidian";
 import { describe, it, expect, beforeEach } from "vitest";
-import { filterNotesFuzzy } from "../api/search/search.service";
+import { filterNotesByTitle, filterNotesFuzzy } from "../api/search/search.service";
 
 describe("search", () => {
+  describe("filterNotesByTitle", () => {
+    const notes: NoteWithContent[] = [
+      {
+        title: "11.15",
+        path: "daily/11.15.md",
+        content: "",
+        lastModified: new Date("2025-11-15"),
+        bookmarked: false,
+      },
+      {
+        title: "Notes for 11.15",
+        path: "notes-for-11.15.md",
+        content: "",
+        lastModified: new Date("2025-11-15"),
+        bookmarked: false,
+      },
+      {
+        title: "11.17",
+        path: "daily/11.17.md",
+        content: "",
+        lastModified: new Date("2025-11-17"),
+        bookmarked: false,
+      },
+      {
+        title: "12-11-15",
+        path: "daily/12-11-15.md",
+        content: "",
+        lastModified: new Date("2025-12-11"),
+        bookmarked: false,
+      },
+      {
+        title: "Unrelated",
+        path: "references/11.15.md",
+        content: "",
+        lastModified: new Date("2025-11-15"),
+        bookmarked: false,
+      },
+    ];
+
+    it("matches a case-insensitive literal substring in the title only", () => {
+      const result = filterNotesByTitle(notes, "11.15");
+
+      expect(result.map((note) => note.title)).toEqual(["11.15", "Notes for 11.15"]);
+    });
+
+    it("returns all notes for blank input", () => {
+      expect(filterNotesByTitle(notes, "   ")).toEqual(notes);
+    });
+  });
+
   describe("filterNotesFuzzy", () => {
     let testNotes: NoteWithContent[];
 

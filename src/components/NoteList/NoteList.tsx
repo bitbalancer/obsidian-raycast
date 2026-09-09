@@ -5,7 +5,7 @@ import { NoteListItem } from "./NoteListItem/NoteListItem";
 import { NoteListDropdown } from "./NoteListDropdown";
 import { SearchNotePreferences } from "../../utils/preferences";
 import { CreateNoteView } from "./CreateNoteView";
-import { filterNotesFuzzy } from "../../api/search/search.service";
+import { filterNotesByTitle, filterNotesFuzzy } from "../../api/search/search.service";
 import { searchNotesWithContent } from "../../api/search/simple-content-search.service";
 import { SearchArguments } from "../../utils/interfaces";
 import { sortNotes, SortOrder } from "../../utils/sorting";
@@ -64,9 +64,12 @@ export function NoteList(props: NoteListProps) {
         if (pref.searchContent) {
           // Search title, path, AND content
           results = await searchNotesWithContent(notes, inputText);
-        } else {
-          // Search only title and path (fast)
+        } else if (pref.fuzzySearch) {
+          // Search title and path with typo tolerance
           results = filterNotesFuzzy(notes, inputText);
+        } else {
+          // Search only the title using a literal, case-insensitive substring
+          results = filterNotesByTitle(notes, inputText);
         }
         const sorted = sortNotes(results, sortOrder);
         setFilteredNotes(sorted.slice(0, MAX_RENDERED_NOTES));
@@ -76,7 +79,7 @@ export function NoteList(props: NoteListProps) {
     }, 300);
 
     return () => clearTimeout(timeoutId);
-  }, [notes, inputText, pref.searchContent, sortOrder]);
+  }, [notes, inputText, pref.searchContent, pref.fuzzySearch, sortOrder]);
 
   if (filteredNotes.length === 0 && inputText.trim() !== "" && !isSearching && !isLoading) {
     return <CreateNoteView title={title || ""} searchText={inputText} onSearchChange={setInputText} vault={vault} />;

@@ -3,6 +3,19 @@ import Fuse from "fuse.js";
 import { Media } from "../../utils/interfaces";
 
 /**
+ * Literal, case-insensitive substring search by note title only.
+ */
+export function filterNotesByTitle(notes: Note[], input: string): Note[] {
+  const query = input.trim().toLowerCase();
+
+  if (query.length === 0) {
+    return notes;
+  }
+
+  return notes.filter((note) => note.title.toLowerCase().includes(query));
+}
+
+/**
  * Fuzzy search notes by title and path (metadata only, no content)
  */
 export function filterNotesFuzzy(notes: Note[], input: string): Note[] {
